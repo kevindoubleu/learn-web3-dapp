@@ -38,13 +38,14 @@ export default async function connect(
     );
 
     // Get the stored value
-    console.log('Querying contract for current count');
-    let response = undefined;
+    console.log('Querying contract for current count from contract id ' + contractId);
+    let response = await client.queryContractSmart(contractId, { get_count: {} });
     let count = response.count as number;
 
     res.status(200).json(count.toString());
   } catch (error) {
     let errorMessage = error instanceof Error ? error.message : 'Unknown Error';
     res.status(500).json(errorMessage);
+    console.log(errorMessage)
   }
 }

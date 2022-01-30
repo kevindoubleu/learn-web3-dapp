@@ -49,16 +49,18 @@ export default async function connect(
 
     // Upload the contract wasm
     const wasm = fs.readFileSync(CONTRACT_PATH);
-    const uploadReceipt = await client.undefined;
+    const uploadReceipt = await client.upload(wasm);
     if (!uploadReceipt) {
       throw new Error('uploadReceipt error');
     }
+    console.log("upload receipt " + JSON.stringify(uploadReceipt))
     // Get the code ID from the receipt
     const {codeId} = uploadReceipt;
 
     // Create an instance of the Counter contract, providing a starting count
     const initMsg = {count: 101};
-    const receipt = undefined;
+    const receipt = await client.instantiate(codeId, initMsg, "my counter contract by "+address.slice(6));
+    console.log("instantiate receipt " + JSON.stringify(receipt))
 
     res.status(200).json({
       contractAddress: receipt.contractAddress,
@@ -67,5 +69,6 @@ export default async function connect(
   } catch (error) {
     let errorMessage = error instanceof Error ? error.message : 'Unknown Error';
     res.status(500).json(errorMessage);
+    console.log(errorMessage)
   }
 }

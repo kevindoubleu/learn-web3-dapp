@@ -21,7 +21,7 @@ afterAll(async () => {
 const client = new CosmWasmClient(getNodeUrl());
 
 function getSecretExplorerURL(txHash: string) {
-  return `https://secretnodes.com/secret/chains/supernova-2/transactions/${txHash}`;
+  return `https://secretnodes.com/secret/chains/pulsar-2/transactions/${txHash}`;
 }
 
 async function getSigningPenFromMnemonic(mnemonic: string) {
